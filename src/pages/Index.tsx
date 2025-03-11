@@ -246,7 +246,7 @@ const Index = () => {
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <p className="text-xl text-gray-700 italic mb-6">
-                "StudyPortals helped me find my dream program in Canada. The detailed information about the courses, admission requirements, and scholarship opportunities made my decision so much easier. I'm now completing my Master's degree at the University of Toronto!"
+                "CareerCompass helped me find my dream program in Canada. The detailed information about the courses, admission requirements, and scholarship opportunities made my decision so much easier. I'm now completing my Master's degree at the University of Toronto!"
               </p>
               <div className="flex items-center justify-center">
                 <img 
