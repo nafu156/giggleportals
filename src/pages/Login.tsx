@@ -5,10 +5,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { loginUser } from '@/services/authService';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { User, Building } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ const Login = () => {
   const { login } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const Login = () => {
         <div className="max-w-md mx-auto">
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-center">Login to StudyPortals</CardTitle>
+              <CardTitle className="text-2xl font-bold text-center">Login to CareerCompass</CardTitle>
               <CardDescription className="text-center">Enter your email and password to access your account</CardDescription>
             </CardHeader>
             <form onSubmit={handleSubmit}>
@@ -82,11 +84,17 @@ const Login = () => {
                 <div className="text-center text-sm">
                   <span className="text-gray-600">Don't have an account?</span>
                   <div className="flex gap-2 justify-center mt-2">
-                    <Link to="/student/register">
-                      <Button variant="outline">Register as Student</Button>
+                    <Link to="/student/register" className="flex items-center">
+                      <Button variant="outline" className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        Register as Student
+                      </Button>
                     </Link>
-                    <Link to="/institution/register">
-                      <Button variant="outline">Register as Institution</Button>
+                    <Link to="/institution/register" className="flex items-center">
+                      <Button variant="outline" className="flex items-center">
+                        <Building className="mr-2 h-4 w-4" />
+                        Register as Institution
+                      </Button>
                     </Link>
                   </div>
                 </div>

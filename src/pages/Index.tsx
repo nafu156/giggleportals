@@ -28,13 +28,13 @@ const Index = () => {
             {/* Registration/Login Options */}
             {!isAuthenticated && (
               <div className="flex flex-col md:flex-row gap-6 justify-center mb-12">
-                <Link to="/student/register">
+                <Link to="/login">
                   <Button size="lg" className="w-full md:w-auto bg-studyportal-blue hover:bg-blue-700">
                     <User className="mr-2" />
                     I'm a Student
                   </Button>
                 </Link>
-                <Link to="/institution/register">
+                <Link to="/login">
                   <Button size="lg" className="w-full md:w-auto bg-studyportal-orange hover:bg-orange-600">
                     <Building className="mr-2" />
                     I'm an Institution
