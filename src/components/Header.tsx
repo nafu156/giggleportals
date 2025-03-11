@@ -9,7 +9,8 @@ import {
   User, 
   Building, 
   LogOut,
-  GraduationCap
+  GraduationCap,
+  FileText
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -39,7 +40,10 @@ const Header = () => {
               <Link to="/gigs" className="text-gray-700 hover:text-studyportal-blue font-medium">Programs</Link>
               
               {isStudent && (
-                <Link to="/student/dashboard" className="text-gray-700 hover:text-studyportal-blue font-medium">Dashboard</Link>
+                <>
+                  <Link to="/student/dashboard" className="text-gray-700 hover:text-studyportal-blue font-medium">Dashboard</Link>
+                  <Link to="/student/applications" className="text-gray-700 hover:text-studyportal-blue font-medium">My Applications</Link>
+                </>
               )}
               
               {isInstitution && (
@@ -79,10 +83,16 @@ const Header = () => {
                   <DropdownMenuSeparator />
                   
                   {isStudent && (
-                    <DropdownMenuItem onClick={() => navigate('/student/dashboard')}>
-                      <GraduationCap className="mr-2 h-4 w-4" />
-                      <span>Student Dashboard</span>
-                    </DropdownMenuItem>
+                    <>
+                      <DropdownMenuItem onClick={() => navigate('/student/dashboard')}>
+                        <GraduationCap className="mr-2 h-4 w-4" />
+                        <span>Student Dashboard</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate('/student/applications')}>
+                        <FileText className="mr-2 h-4 w-4" />
+                        <span>My Applications</span>
+                      </DropdownMenuItem>
+                    </>
                   )}
                   
                   {isInstitution && (

@@ -14,6 +14,7 @@ import InstitutionRegistration from "./pages/institution/Registration";
 import Login from "./pages/Login";
 import StudentDashboard from "./pages/student/Dashboard";
 import CourseDetail from "./pages/student/CourseDetail";
+import MyApplications from "./pages/student/MyApplications";
 import InstitutionDashboard from "./pages/institution/Dashboard";
 import AddCourse from "./pages/institution/AddCourse";
 import ManageApplications from "./pages/institution/ManageApplications";
@@ -39,6 +40,11 @@ const App = () => (
             <Route path="/student/dashboard" element={
               <ProtectedRoute requiredRole="student">
                 <StudentDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/student/applications" element={
+              <ProtectedRoute requiredRole="student">
+                <MyApplications />
               </ProtectedRoute>
             } />
             <Route path="/student/course/:degree/:id" element={
