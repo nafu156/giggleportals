@@ -1,10 +1,30 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Search, Globe, Menu } from 'lucide-react';
+import { 
+  Search, 
+  Globe, 
+  Menu, 
+  User, 
+  Building, 
+  LogOut,
+  GraduationCap
+} from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
+  const { user, logout, isAuthenticated, isStudent, isInstitution } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4">
@@ -17,8 +37,17 @@ const Header = () => {
             <nav className="hidden md:flex space-x-6">
               <Link to="/" className="text-gray-700 hover:text-studyportal-blue font-medium">Home</Link>
               <Link to="/gigs" className="text-gray-700 hover:text-studyportal-blue font-medium">Programs</Link>
-              <Link to="/destinations" className="text-gray-700 hover:text-studyportal-blue font-medium">Destinations</Link>
-              <Link to="/disciplines" className="text-gray-700 hover:text-studyportal-blue font-medium">Disciplines</Link>
+              
+              {isStudent && (
+                <Link to="/student/dashboard" className="text-gray-700 hover:text-studyportal-blue font-medium">Dashboard</Link>
+              )}
+              
+              {isInstitution && (
+                <>
+                  <Link to="/institution/dashboard" className="text-gray-700 hover:text-studyportal-blue font-medium">Dashboard</Link>
+                  <Link to="/institution/applications" className="text-gray-700 hover:text-studyportal-blue font-medium">Applications</Link>
+                </>
+              )}
             </nav>
           </div>
           
@@ -27,11 +56,60 @@ const Header = () => {
               <Search size={18} className="mr-2" />
               Search
             </Button>
+            
             <Button variant="outline" size="sm" className="rounded-full">
               <Globe size={18} className="mr-2" />
               EN
             </Button>
-            <Button className="bg-studyportal-blue hover:bg-blue-700 text-white rounded-full">Sign In</Button>
+            
+            {!isAuthenticated ? (
+              <Link to="/login">
+                <Button className="bg-studyportal-blue hover:bg-blue-700 text-white rounded-full">Sign In</Button>
+              </Link>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="rounded-full">
+                    <User size={18} className="mr-2" />
+                    {user?.name?.split(' ')[0]}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  
+                  {isStudent && (
+                    <DropdownMenuItem onClick={() => navigate('/student/dashboard')}>
+                      <GraduationCap className="mr-2 h-4 w-4" />
+                      <span>Student Dashboard</span>
+                    </DropdownMenuItem>
+                  )}
+                  
+                  {isInstitution && (
+                    <>
+                      <DropdownMenuItem onClick={() => navigate('/institution/dashboard')}>
+                        <Building className="mr-2 h-4 w-4" />
+                        <span>Institution Dashboard</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate('/institution/add-course')}>
+                        <GraduationCap className="mr-2 h-4 w-4" />
+                        <span>Add Program</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate('/institution/applications')}>
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Manage Applications</span>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => logout()}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
           
           <div className="md:hidden">

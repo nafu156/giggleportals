@@ -8,6 +8,16 @@ import Index from "./pages/Index";
 import GigsPage from "./pages/GigsPage";
 import GigDetail from "./pages/GigDetail";
 import NotFound from "./pages/NotFound";
+import { AuthProvider } from "./contexts/AuthContext";
+import StudentRegistration from "./pages/student/Registration";
+import InstitutionRegistration from "./pages/institution/Registration";
+import Login from "./pages/Login";
+import StudentDashboard from "./pages/student/Dashboard";
+import CourseDetail from "./pages/student/CourseDetail";
+import InstitutionDashboard from "./pages/institution/Dashboard";
+import AddCourse from "./pages/institution/AddCourse";
+import ManageApplications from "./pages/institution/ManageApplications";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -17,13 +27,48 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/gigs" element={<GigsPage />} />
-          <Route path="/gig/:id" element={<GigDetail />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/gigs" element={<GigsPage />} />
+            <Route path="/gig/:id" element={<GigDetail />} />
+            <Route path="/login" element={<Login />} />
+            
+            {/* Student Routes */}
+            <Route path="/student/register" element={<StudentRegistration />} />
+            <Route path="/student/dashboard" element={
+              <ProtectedRoute requiredRole="student">
+                <StudentDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/student/course/:degree/:id" element={
+              <ProtectedRoute requiredRole="student">
+                <CourseDetail />
+              </ProtectedRoute>
+            } />
+
+            {/* Institution Routes */}
+            <Route path="/institution/register" element={<InstitutionRegistration />} />
+            <Route path="/institution/dashboard" element={
+              <ProtectedRoute requiredRole="institution">
+                <InstitutionDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/institution/add-course" element={
+              <ProtectedRoute requiredRole="institution">
+                <AddCourse />
+              </ProtectedRoute>
+            } />
+            <Route path="/institution/applications" element={
+              <ProtectedRoute requiredRole="institution">
+                <ManageApplications />
+              </ProtectedRoute>
+            } />
+            
+            {/* Catch all */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

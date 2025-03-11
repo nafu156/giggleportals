@@ -4,10 +4,12 @@ import Layout from '@/components/Layout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Search, Globe, BookOpen, GraduationCap, Award } from 'lucide-react';
+import { Search, Globe, BookOpen, GraduationCap, Award, User, Building } from 'lucide-react';
 import { getPrograms } from '@/services/programService';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Index = () => {
+  const { isAuthenticated, isStudent, isInstitution } = useAuth();
   const featuredPrograms = getPrograms().slice(0, 4);
   
   return (
@@ -22,6 +24,35 @@ const Index = () => {
             <p className="text-xl text-gray-700 mb-8">
               Compare thousands of programs and courses from universities worldwide
             </p>
+            
+            {/* Registration/Login Options */}
+            {!isAuthenticated && (
+              <div className="flex flex-col md:flex-row gap-6 justify-center mb-12">
+                <Link to="/student/register">
+                  <Button size="lg" className="w-full md:w-auto bg-studyportal-blue hover:bg-blue-700">
+                    <User className="mr-2" />
+                    I'm a Student
+                  </Button>
+                </Link>
+                <Link to="/institution/register">
+                  <Button size="lg" className="w-full md:w-auto bg-studyportal-orange hover:bg-orange-600">
+                    <Building className="mr-2" />
+                    I'm an Institution
+                  </Button>
+                </Link>
+              </div>
+            )}
+            
+            {/* Go to Dashboard */}
+            {isAuthenticated && (
+              <div className="mb-12">
+                <Link to={isStudent ? "/student/dashboard" : "/institution/dashboard"}>
+                  <Button size="lg" className="bg-studyportal-blue hover:bg-blue-700">
+                    Go to Dashboard
+                  </Button>
+                </Link>
+              </div>
+            )}
             
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <div className="flex flex-col md:flex-row gap-4">
